@@ -1,4 +1,4 @@
-package cn.zenliu.spring.mulitport
+package cn.zenliu.spring.multiport
 
 import io.undertow.*
 import org.apache.catalina.connector.Connector
@@ -17,8 +17,8 @@ import reactor.netty.http.server.*
 
 @Configuration
 @ConditionalOnWebApplication
-@EnableConfigurationProperties(MulitPortProperties::class)
-class MulitPortAutoConfigurer {
+@EnableConfigurationProperties(MultiPortProperties::class)
+class MultiPortAutoConfigurer {
 	@Bean
 	@ConditionalOnMissingBean(JettyServerCustomizer::class)
 	fun jettyServerCustomizer() = JettyServerCustomizer {}
@@ -27,7 +27,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Jetty::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 	fun JettyServletWebServerFactory(
-		prop: MulitPortProperties,
+		prop: MultiPortProperties,
 		jettyServerCustomizer: JettyServerCustomizer
 	) = JettyServletWebServerFactory().apply {
 		this.serverCustomizers.apply {
@@ -46,7 +46,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Jetty::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 	fun jettyReactiveWebServerFactory(
-		prop: MulitPortProperties,
+		prop: MultiPortProperties,
 		jettyServerCustomizer: JettyServerCustomizer
 	) = JettyReactiveWebServerFactory().apply {
 		this.serverCustomizers.apply {
@@ -65,7 +65,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Tomcat::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 	fun tomcatServletWebServerFactory(
-		prop: MulitPortProperties
+		prop: MultiPortProperties
 	) = TomcatServletWebServerFactory().apply {
 		prop.secondaryHttp?.let { http ->
 			this.additionalTomcatConnectors.add(Connector().apply {
@@ -79,7 +79,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Tomcat::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 	fun tomcatReactiveWebServerFactory(
-		prop: MulitPortProperties
+		prop: MultiPortProperties
 	) = TomcatReactiveWebServerFactory().apply {
 		prop.secondaryHttp?.let { http ->
 			/*this.addConnectorCustomizers(TomcatConnectorCustomizer {
@@ -97,7 +97,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Undertow::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 	fun undertowServletWebServerFactory(
-		prop: MulitPortProperties
+		prop: MultiPortProperties
 	) = UndertowServletWebServerFactory().apply {
 		prop.secondaryHttp?.let { http ->
 			this.builderCustomizers.add(UndertowBuilderCustomizer {
@@ -112,7 +112,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(Undertow::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 	fun undertowReactiveWebServerFactory(
-		prop: MulitPortProperties
+		prop: MultiPortProperties
 	) = UndertowReactiveWebServerFactory().apply {
 		prop.secondaryHttp?.let { http ->
 			this.builderCustomizers.add(UndertowBuilderCustomizer {
@@ -125,7 +125,7 @@ class MulitPortAutoConfigurer {
 	@ConditionalOnClass(HttpServer::class)
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 	fun nettyReactiveWebServerFactory(
-		prop: MulitPortProperties
+		prop: MultiPortProperties
 	) = NettyReactiveWebServerFactory().apply {
 		prop.secondaryHttp?.let { http ->
 			NotImplementedError("spring not offical implemented yet")

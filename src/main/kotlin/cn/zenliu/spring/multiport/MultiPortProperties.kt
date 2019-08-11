@@ -1,9 +1,9 @@
-package cn.zenliu.spring.mulitport
+package cn.zenliu.spring.multiport
 
 import org.springframework.boot.context.properties.*
 
 @ConfigurationProperties("server")
-class MulitPortProperties {
+class MultiPortProperties {
 	/**
 	 * Secondary Http Port (default null)
 	 */
