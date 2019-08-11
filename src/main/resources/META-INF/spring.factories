@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.zenliu.spring.mulitport.MulitPortAutoConfigurer
